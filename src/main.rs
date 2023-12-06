@@ -1,12 +1,14 @@
 mod discord;
-use discord_rpc_client::Client;
 
-fn main() {
-    const CLIENT_ID: u64 = 848100876773621771;
-    let mut drpc = Client::new(CLIENT_ID);
-    drpc.start();
-    discord::set_presence(&mut drpc, "Test Game".to_owned(), "octopath".to_owned());
-    loop {
-        println!("active...");
-    }
+use std::error::Error;
+use crate::discord::Discord;
+
+fn main() -> Result<(), Box<dyn Error>> {
+    let mut dc = Discord::new("848100876773621771")?;
+    dc.set_presence("Test Game", "octopath")?;
+
+    loop {}
+
+    dc.close()?;
+    Ok(())
 }
